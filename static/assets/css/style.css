@@ -782,3 +782,12 @@ a{
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.vid-thumbnail{
+  width: 250px;
+  height: 160px;
+}
+
+.vid-cctv{
+  width: 650px;
+}
