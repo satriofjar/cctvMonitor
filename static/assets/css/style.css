@@ -790,4 +790,5 @@ a{
 
 .vid-cctv{
   width: 650px;
+  max-height: 400px !important;
 }
