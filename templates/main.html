@@ -61,27 +61,14 @@
 
             <ul class="sidebar-nav" id="sidebar-nav">
 
-            <!-- <li class="nav-item">
-                <a class="nav-link " href="{% url 'home' %}">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-                </a>
-            </li> -->
-
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'home' %}">
-                <i class="bi bi-camera-video"></i>
-                <span>Lantai 1</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="">
-                <i class="bi bi-camera-video"></i>
-                <span>Lantai 2</span>
-                </a>
-            </li>
-
+            {% for floor in floors %}
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{% url 'list-cctv' floor.id %}">
+                    <i class="bi bi-camera-video"></i>
+                    <span>{{ floor.name }}</span>
+                    </a>
+                </li>
+            {% endfor %}
             </ul>
 
         </aside><!-- End Sidebar-->

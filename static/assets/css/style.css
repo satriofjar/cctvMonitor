@@ -786,9 +786,11 @@ a{
 .vid-thumbnail{
   width: 250px;
   height: 160px;
+  background-color: #e7e7e7;
 }
 
 .vid-cctv{
   width: 650px;
-  max-height: 400px !important;
+  height: 400px !important;
+  background-color: #f0f0f0;
 }

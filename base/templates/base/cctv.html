@@ -13,8 +13,8 @@ Camera 1 - CCTV Monitor
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-          <li class="breadcrumb-item">Lantai 1</li>
-          <li class="breadcrumb-item active">lorem ipsum</li>
+          <li class="breadcrumb-item">{{ floor.name }}</li>
+          <li class="breadcrumb-item active">{{ camera.name }}</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -33,25 +33,22 @@ Camera 1 - CCTV Monitor
 
                         <div class="col-lg-8 mb-5 mt-4">
                            <div class="text-center">
-                             <!-- <img class="rounded-3 img-fluid" src="https://placehold.jp/650x400.png" alt=""> -->
-                             <!-- <video class="rounded-3 img-fluid vid-cctv" controls allowfullscreen controlsList="nodownload">
-                              <source src="{% url 'stream' %}">
-                             </video> -->
-                             <img src="{% url 'stream' %}" class="rounded-3 img-fluid vid-cctv" alt="">
-                             <h3 class="text-start ms-5 ps-1 my-4 fs-4 fw-semibold">Lorem ipsum</h3>
+                             <img src="{% url 'stream' camera.id %}" class="rounded-3 img-fluid vid-cctv" alt="">
+                             <h3 class="text-start ms-5 ps-1 my-4 fs-4 fw-semibold">{{ camera.name }}</h3>
                            </div>
                          </div>
 
                         <div class="col mt-4" style="min-width: 320px;">
                            <div class="row">
-                             
+                             {% for cam in cameras %}
                              <div class="col-md-3 mx-1 my-2 mx-auto" style="width: 280px;">
                                <a href="" class="mx-auto thumbnail" style="width: 16rem;">
-                                 <img class="rounded-3 vid-thumbnail" src="https://placehold.jp/250x160.png" alt="">
+                                 <img class="rounded-3 vid-thumbnail" src="{% url 'show_thumbnail' cam.id %}" alt="">
                                  <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
                                </a>
-                               <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
+                               <p class="ms-1 mt-2 fw-semibold fs-5">{{ cam.name }}</p>
                              </div>
+                             {% endfor %}
                              
                              <div class="col-md-3 mx-1 my-2 mx-auto" style="width: 280px;">
                                <a href="" class="mx-auto thumbnail" style="width: 16rem;">

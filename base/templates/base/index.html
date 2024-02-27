@@ -9,11 +9,11 @@ Home - CCTV Monitor
 <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Lantai 1</h1>
+      <h1>{{ floor.name }}</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Lantai 1</li>
+          <li class="breadcrumb-item active">{{ floor.name }}</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -29,63 +29,15 @@ Home - CCTV Monitor
               <div class="card overflow-auto">
                 <div class="container">
                     <div class="row">
-                        
+                      {% for camera in cameras %}
                         <div class="col-md-3 mx-1 my-3" style="width: 280px;">
-                            <a href="{% url 'cctv' %}" class="mx-auto thumbnail" style="width: 16rem;">
-                                    <img class="rounded-3 vid-thumbnail" src="https://placehold.jp/250x160.png" alt="">
+                            <a href="{% url 'cctv' floor.id camera.id %}" class="mx-auto thumbnail" style="width: 16rem;">
+                                    <img class="rounded-3 vid-thumbnail" src="{% url 'show_thumbnail' camera.id %}" alt="">
                                     <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
                             </a>
-                            <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
+                            <p class="ms-1 mt-2 fw-semibold fs-5">{{ camera.name }}</p>
                         </div>
-                        
-                        <div class="col-md-3 mx-1 my-3" style="width: 280px;">
-                            <a href="{% url 'cctv' %}" class="mx-auto thumbnail" style="width: 16rem;">
-                                    <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                    <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                            </a>
-                            <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                        </div>
-                        
-                        <div class="col-md-3 mx-1 my-3" style="width: 280px;">
-                            <a href="{% url 'cctv' %}" class="mx-auto thumbnail" style="width: 16rem;">
-                                    <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                    <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                            </a>
-                            <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                        </div>
-                        
-                        <div class="col-md-3 mx-1 my-3" style="width: 280px;">
-                            <a href="{% url 'cctv' %}" class="mx-auto thumbnail" style="width: 16rem;">
-                                    <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                    <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                            </a>
-                            <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                        </div>
-                        
-                        <div class="col-md-3 mx-1 my-3" style="width: 280px;">
-                            <a href="{% url 'cctv' %}" class="mx-auto thumbnail" style="width: 16rem;">
-                                    <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                    <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                            </a>
-                            <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                        </div>
-                        
-                        <div class="col-md-3 mx-1 my-3" style="width: 280px;">
-                            <a href="{% url 'cctv' %}" class="mx-auto thumbnail" style="width: 16rem;">
-                                    <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                    <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                            </a>
-                            <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                        </div>
-                        
-                        <div class="col-md-3 mx-1 my-3" style="width: 280px;">
-                            <a href="{% url 'cctv' %}" class="mx-auto thumbnail" style="width: 16rem;">
-                                    <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                    <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                            </a>
-                            <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                        </div>
-                        
+                      {% endfor %}          
                     </div>
                     
                 </div>
@@ -95,4 +47,5 @@ Home - CCTV Monitor
     </section>
 
   </main><!-- End #main -->
+
 {% endblock content %}

@@ -1,58 +1,69 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.http import StreamingHttpResponse
-from django.views.decorators import gzip
+from django.views.decorators.csrf import csrf_exempt
 import cv2
-# import vlc
-# import time
+from . models import Floor, Camera
 
 # Create your views here.
 def home(request):
+    floors = Floor.objects.all()
+    floor = get_object_or_404(Floor, id=1)
+    cameras = floor.camera_set.all()
     context = {
-
-    }
+        'floors': floors,
+        'floor': floor,
+        'cameras': cameras,
+    }   
 
     return render(request, 'base/index.html', context)
 
-def cctv(request):
-    context = {
 
-    }
+def floor_cctv(request, pk):
+    floors = Floor.objects.all()
+    floor = get_object_or_404(Floor, id=pk)
+    cameras = floor.camera_set.all()
+    context = {
+        'floors': floors,
+        'floor': floor,
+        'cameras': cameras,
+    }   
+
+    return render(request, 'base/index.html', context)
+
+def cctv(request, id_floor, id_camera):
+    floors = Floor.objects.all()
+    floor = get_object_or_404(Floor, id=id_floor)
+    cameras = floor.camera_set.exclude(id=id_camera)
+    camera = floor.camera_set.get(id=id_camera)
+    context = {
+        'floors': floors,
+        'floor': floor,
+        'cameras': cameras,
+        'camera': camera,
+    }   
 
     return render(request, 'base/cctv.html', context)
 
 
-# @gzip.gzip_page
-# def stream(request):
-#     # Inisialisasi VLC Player
-#     instance = vlc.Instance()
-#     player = instance.media_player_new()
+@csrf_exempt
+def show_thumbnail(request, pk):
+    # Buka koneksi ke stream RTSP
+    url = 'rtsp://labs:yBtYHJ35Hk@mediastreaming.grupoavantia.com.br/Operacional/avantia_frente_sede.stream'
+    camera = Camera.objects.get(id=pk)
+    cap = cv2.VideoCapture(camera.url)
 
-#     # URL stream RTSP
-#     rtsp_url = 'rtsp://labs:yBtYHJ35Hk@mediastreaming.grupoavantia.com.br/Operacional/avantia_frente_sede.stream'
+    # Baca frame pertama dari stream
+    ret, frame = cap.read()
 
+    # Ubah frame menjadi format gambar
+    ret, buffer = cv2.imencode('.jpg', frame)
+    thumbnail_data = buffer.tobytes()
 
-#     # Buka stream
-#     media = instance.media_new(rtsp_url)
-#     player.set_media(media)
+    # Pastikan untuk melepaskan koneksi setelah selesai
+    cap.release()
 
-#     # Callback untuk handle streaming
-#     def stream_generator():
-#         while True:
-#             # Jika player udah play, kirim frame video ke client
-#             if player.get_state() == vlc.State.Playing:
-#                 video_frame = player.video_get_size()
-#                 if video_frame:
-#                     frame, width, height, pitch = player.video_get()
-#                     yield (b'--frame\r\n'
-#                            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-#                 # time.sleep(0.04)  # Delay untuk menjaga kecepatan streaming
-#                 time.sleep(0.4)
-#             else:
-#                 # time.sleep(0.1)  # Jika belum play, tunggu sebentar
-#                 time.sleep(1)  # Jika belum play, tunggu sebentar
-
-#     # Setting HTTP response sebagai streaming
-#     return StreamingHttpResponse(stream_generator(), content_type='multipart/x-mixed-replace; boundary=frame')
+    # Tampilkan gambar thumbnail sebagai HttpResponse
+    return HttpResponse(thumbnail_data, content_type='image/jpeg')
 
 
 def gen(camera):
@@ -70,5 +81,7 @@ def gen(camera):
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 #url:"localhost:8000/camera_feed"
-def camerafeed(request): 
-    return StreamingHttpResponse(gen("rtsp://labs:yBtYHJ35Hk@mediastreaming.grupoavantia.com.br/Operacional/avantia_frente_sede.stream"),content_type="multipart/x-mixed-replace;boundary=frame")
+def camerafeed(request, pk): 
+    url = "rtsp://labs:yBtYHJ35Hk@mediastreaming.grupoavantia.com.br/Operacional/avantia_frente_sede.stream"
+    camera = Camera.objects.get(id=pk)
+    return StreamingHttpResponse(gen(camera.url),content_type="multipart/x-mixed-replace;boundary=frame")
