@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %} 
-Camera 1 - CCTV Monitor
+{{ camera.name }} - CCTV Monitor
 {% endblock title %}
 
 {% block content %}
@@ -42,45 +42,13 @@ Camera 1 - CCTV Monitor
                            <div class="row">
                              {% for cam in cameras %}
                              <div class="col-md-3 mx-1 my-2 mx-auto" style="width: 280px;">
-                               <a href="" class="mx-auto thumbnail" style="width: 16rem;">
+                               <a href="{% url 'cctv' floor.id cam.id %}" class="mx-auto thumbnail" style="width: 16rem;">
                                  <img class="rounded-3 vid-thumbnail" src="{% url 'show_thumbnail' cam.id %}" alt="">
                                  <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
                                </a>
                                <p class="ms-1 mt-2 fw-semibold fs-5">{{ cam.name }}</p>
                              </div>
                              {% endfor %}
-                             
-                             <div class="col-md-3 mx-1 my-2 mx-auto" style="width: 280px;">
-                               <a href="" class="mx-auto thumbnail" style="width: 16rem;">
-                                 <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                 <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                               </a>
-                               <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                             </div>
-                             
-                             <div class="col-md-3 mx-1 my-2 mx-auto" style="width: 280px;">
-                               <a href="" class="mx-auto thumbnail" style="width: 16rem;">
-                                 <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                 <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                               </a>
-                               <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                             </div>
-                             
-                             <div class="col-md-3 mx-1 my-2 mx-auto" style="width: 280px;">
-                               <a href="" class="mx-auto thumbnail" style="width: 16rem;">
-                                 <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                 <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                               </a>
-                               <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                             </div>
-                             
-                             <div class="col-md-3 mx-1 my-2 mx-auto" style="width: 280px;">
-                               <a href="" class="mx-auto thumbnail" style="width: 16rem;">
-                                 <img class="rounded-3" src="https://placehold.jp/250x160.png" alt="">
-                                 <img class="play-btn" src="https://www.wonderplugin.com/download/playbutton.png" alt="">
-                               </a>
-                               <p class="ms-1 mt-2 fw-semibold fs-5">Lorem ipsum</p>
-                             </div>
                              
                            </div>
                          </div>

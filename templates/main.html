@@ -61,12 +61,19 @@
 
             <ul class="sidebar-nav" id="sidebar-nav">
 
-            {% for floor in floors %}
+            {% for flr in floors %}
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="{% url 'list-cctv' floor.id %}">
-                    <i class="bi bi-camera-video"></i>
-                    <span>{{ floor.name }}</span>
+                    {% if flr.id == floor.id %}
+                    <a class="nav-link" href="{% url 'list-cctv' flr.id %}">
+                        <i class="bi bi-camera-video"></i>
+                        <span>{{ flr.name }}</span>
                     </a>
+                    {% else %}
+                    <a class="nav-link collapsed" href="{% url 'list-cctv' flr.id %}">
+                        <i class="bi bi-camera-video"></i>
+                        <span>{{ flr.name }}</span>
+                    </a>
+                    {% endif %}
                 </li>
             {% endfor %}
             </ul>

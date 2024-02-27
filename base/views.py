@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, get_object_or_404
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 import cv2
 from . models import Floor, Camera
@@ -7,6 +7,7 @@ from . models import Floor, Camera
 # Create your views here.
 def home(request):
     floors = Floor.objects.all()
+    # floor = Floor.objects.get(id=4243)
     floor = get_object_or_404(Floor, id=1)
     cameras = floor.camera_set.all()
     context = {
@@ -31,10 +32,14 @@ def floor_cctv(request, pk):
     return render(request, 'base/index.html', context)
 
 def cctv(request, id_floor, id_camera):
-    floors = Floor.objects.all()
-    floor = get_object_or_404(Floor, id=id_floor)
-    cameras = floor.camera_set.exclude(id=id_camera)
-    camera = floor.camera_set.get(id=id_camera)
+    try:
+        floors = Floor.objects.all()
+        floor = Floor.objects.get(id=id_floor)
+        cameras = floor.camera_set.exclude(id=id_camera)
+        camera = floor.camera_set.exclude(id=id_camera)
+        camera = floor.camera_set.get(id=id_camera)
+    except floor.camera_set.model.DoesNotExist:
+        raise Http404()
     context = {
         'floors': floors,
         'floor': floor,
