@@ -7,9 +7,12 @@ from . models import Floor, Camera
 # Create your views here.
 def home(request):
     floors = Floor.objects.all()
-    # floor = Floor.objects.get(id=4243)
-    floor = get_object_or_404(Floor, id=1)
-    cameras = floor.camera_set.all()
+    # floor = get_object_or_404(Floor, id=1)
+    try:
+        floor = Floor.objects.first()
+        cameras = floor.camera_set.all()
+    except:
+        cameras = []
     context = {
         'floors': floors,
         'floor': floor,
